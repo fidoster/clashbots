@@ -7,6 +7,8 @@ rounds. A panel of four AI judges — each with its own personality and scoring
 criterion — deliberates and crowns a winner. It's a comedy show that doubles as a
 live, *explainable* model-evaluation benchmark.
 
+![Clashbots Home Dashboard](./screenshots/clashbots_home.png)
+
 > Inspired in spirit by Stanford's [Generative Agents](https://arxiv.org/abs/2304.03442)
 > (the "Smallville" pixel sandbox) and [Chatbot Arena](https://lmarena.ai).
 
@@ -74,6 +76,9 @@ JSON with a per-side score, a justification, and a winner. The engine aggregates
 totals, records which side won each criterion, and synthesizes a plain-English
 verdict (e.g. *"Captain Green wins 30–20, taking Logic & Rhetoric; Professor Blue took
 Accuracy"*). This makes results far less noisy and fully **explainable**.
+
+![Explainable Judge Verdict Detail](./screenshots/clashbots_judge_popup.png)
+
 
 ## Architecture
 
