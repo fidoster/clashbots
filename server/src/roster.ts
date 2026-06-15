@@ -36,12 +36,10 @@ export const MODEL_CATALOG: ModelOption[] = [
   { id: "openrouter:x-ai/grok-2-1212", label: "Grok 2 · OpenRouter", needs: "openrouter" },
 
   // OpenRouter FREE tier (one OpenRouter key, no usage cost)
-  { id: "openrouter:nvidia/nemotron-3-ultra-550b-a55b:free", label: "🆓 Nemotron 3 Ultra · OpenRouter free", needs: "openrouter" },
-  { id: "openrouter:nvidia/nemotron-3-super-120b-a12b:free", label: "🆓 Nemotron 3 Super · OpenRouter free", needs: "openrouter" },
-  { id: "openrouter:openai/gpt-oss-120b:free", label: "🆓 GPT-OSS 120B · OpenRouter free", needs: "openrouter" },
-  { id: "openrouter:nex-agi/nex-n2-pro:free", label: "🆓 Nex N2 Pro · OpenRouter free", needs: "openrouter" },
-  { id: "openrouter:poolside/laguna-m.1:free", label: "🆓 Laguna M.1 · OpenRouter free", needs: "openrouter" },
-  { id: "openrouter:poolside/laguna-xs.2:free", label: "🆓 Laguna XS.2 · OpenRouter free", needs: "openrouter" },
+  { id: "openrouter:meta-llama/llama-3.3-70b-instruct:free", label: "🆓 Llama 3.3 70B · OpenRouter free", needs: "openrouter" },
+  { id: "openrouter:nousresearch/hermes-3-llama-3.1-405b:free", label: "🆓 Hermes 3 405B · OpenRouter free", needs: "openrouter" },
+  { id: "openrouter:google/gemma-4-31b-it:free", label: "🆓 Gemma 4 31B · OpenRouter free", needs: "openrouter" },
+  { id: "openrouter:qwen/qwen3-coder:free", label: "🆓 Qwen 3 Coder · OpenRouter free", needs: "openrouter" },
 
   // NVIDIA NIM (free credits at build.nvidia.com — key looks like "nvapi-…")
   { id: "nvidia:meta/llama-3.3-70b-instruct", label: "🆓 Llama 3.3 70B · NVIDIA", needs: "nvidia" },
