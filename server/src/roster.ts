@@ -36,9 +36,11 @@ export const MODEL_CATALOG: ModelOption[] = [
   { id: "openrouter:x-ai/grok-2-1212", label: "Grok 2 · OpenRouter", needs: "openrouter" },
 
   // OpenRouter FREE tier (one OpenRouter key, no usage cost)
-  { id: "openrouter:deepseek/deepseek-r1:free", label: "🆓 DeepSeek R1 · OpenRouter free", needs: "openrouter" },
-  { id: "openrouter:meta-llama/llama-3.1-8b-instruct:free", label: "🆓 Llama 3.1 8B · OpenRouter free", needs: "openrouter" },
-  { id: "openrouter:google/gemma-2-9b-it:free", label: "🆓 Gemma 2 9B · OpenRouter free", needs: "openrouter" },
+  { id: "openrouter:nvidia/nemotron-3-ultra:free", label: "🆓 Nemotron 3 Ultra · OpenRouter free", needs: "openrouter" },
+  { id: "openrouter:nvidia/nemotron-3-super:free", label: "🆓 Nemotron 3 Super · OpenRouter free", needs: "openrouter" },
+  { id: "openrouter:openai/gpt-oss-120b:free", label: "🆓 GPT-OSS 120B · OpenRouter free", needs: "openrouter" },
+  { id: "openrouter:nex-agi/nex-n2-pro:free", label: "🆓 Nex N2 Pro · OpenRouter free", needs: "openrouter" },
+  { id: "openrouter:poolside/laguna-m.1:free", label: "🆓 Laguna M.1 · OpenRouter free", needs: "openrouter" },
 
   // NVIDIA NIM (free credits at build.nvidia.com — key looks like "nvapi-…")
   { id: "nvidia:meta/llama-3.3-70b-instruct", label: "🆓 Llama 3.3 70B · NVIDIA", needs: "nvidia" },
