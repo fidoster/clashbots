@@ -43,12 +43,12 @@ export const MODEL_CATALOG: ModelOption[] = [
 
   // NVIDIA NIM (free credits at build.nvidia.com — key looks like "nvapi-…")
   { id: "nvidia:meta/llama-3.3-70b-instruct", label: "🆓 Llama 3.3 70B · NVIDIA", needs: "nvidia" },
-  { id: "nvidia:deepseek-ai/deepseek-r1", label: "🆓 DeepSeek R1 · NVIDIA", needs: "nvidia" },
-  { id: "nvidia:nvidia/llama-3.1-nemotron-70b-instruct", label: "🆓 Nemotron 70B · NVIDIA", needs: "nvidia" },
-  { id: "nvidia:qwen/qwen2.5-72b-instruct", label: "🆓 Qwen 2.5 72B · NVIDIA", needs: "nvidia" },
-  { id: "nvidia:minimaxai/minimax-m3", label: "🆓 MiniMax M3 · NVIDIA", needs: "nvidia" },
+  { id: "nvidia:nvidia/llama-3.3-nemotron-super-49b-v1", label: "🆓 Nemotron Super 49B · NVIDIA", needs: "nvidia" },
   { id: "nvidia:google/gemma-4-31b-it", label: "🆓 Gemma 4 31B · NVIDIA", needs: "nvidia" },
   { id: "nvidia:deepseek-ai/deepseek-v4-pro", label: "🆓 DeepSeek V4 Pro · NVIDIA", needs: "nvidia" },
+  { id: "nvidia:qwen/qwen3-next-80b-a3b-instruct", label: "🆓 Qwen 3 Next 80B · NVIDIA", needs: "nvidia" },
+  { id: "nvidia:mistralai/mistral-small-4-119b-2603", label: "🆓 Mistral Small 119B · NVIDIA", needs: "nvidia" },
+  { id: "nvidia:meta/llama-3.1-8b-instruct", label: "🆓 Llama 3.1 8B · NVIDIA", needs: "nvidia" },
 ];
 
 function baseDebaters(): [Debater, Debater] {
