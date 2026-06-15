@@ -41,6 +41,7 @@ export const MODEL_CATALOG: ModelOption[] = [
   { id: "openrouter:openai/gpt-oss-120b:free", label: "🆓 GPT-OSS 120B · OpenRouter free", needs: "openrouter" },
   { id: "openrouter:nex-agi/nex-n2-pro:free", label: "🆓 Nex N2 Pro · OpenRouter free", needs: "openrouter" },
   { id: "openrouter:poolside/laguna-m.1:free", label: "🆓 Laguna M.1 · OpenRouter free", needs: "openrouter" },
+  { id: "openrouter:poolside/laguna-xs.2:free", label: "🆓 Laguna XS.2 · OpenRouter free", needs: "openrouter" },
 
   // NVIDIA NIM (free credits at build.nvidia.com — key looks like "nvapi-…")
   { id: "nvidia:meta/llama-3.3-70b-instruct", label: "🆓 Llama 3.3 70B · NVIDIA", needs: "nvidia" },
