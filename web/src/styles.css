@@ -199,6 +199,7 @@ body {
   .arena-floor { gap: 4vw; }
   .arena { min-height: 280px; padding: 10px 10px 12px; }
   .arena-talk { height: 120px; }
+  .speech-text { max-height: 55px; }
   .bot-avatar { width: 56px; height: 56px; }
   .nameplate { font-size: 13px; }
   .nameplate .total { font-size: 15px; }
@@ -349,7 +350,11 @@ body {
 }
 .speech.blue .speech-name { color: var(--blue); }
 .speech.green .speech-name { color: var(--green); }
-.speech-text { display: block; }
+.speech-text {
+  display: block;
+  max-height: 85px;
+  overflow-y: auto;
+}
 /* downward tail toward the speaking side (matches the card's lower colour) */
 .speech::after {
   content: ""; position: absolute; bottom: -12px; width: 0; height: 0;
@@ -716,20 +721,20 @@ html::-webkit-scrollbar-thumb:hover { background: var(--blue-glow); background-c
 
 /* Inner scroll areas: thumb stays hidden until you hover the area, then fades in
    in theme colours (blue, brightening to gold on the thumb itself). */
-.log, .prompt-area, .modal-backdrop, .persona-grid {
+.log, .prompt-area, .modal-backdrop, .persona-grid, .speech-text {
   scrollbar-width: thin; scrollbar-color: transparent transparent;
   transition: scrollbar-color .2s ease;
 }
-.log:hover, .prompt-area:hover, .modal-backdrop:hover, .persona-grid:hover { scrollbar-color: var(--blue-glow) transparent; }
-.log::-webkit-scrollbar, .prompt-area::-webkit-scrollbar, .modal-backdrop::-webkit-scrollbar, .persona-grid::-webkit-scrollbar { width: 8px; height: 8px; }
-.log::-webkit-scrollbar-track, .prompt-area::-webkit-scrollbar-track, .modal-backdrop::-webkit-scrollbar-track, .persona-grid::-webkit-scrollbar-track { background: transparent; }
-.log::-webkit-scrollbar-thumb, .prompt-area::-webkit-scrollbar-thumb, .modal-backdrop::-webkit-scrollbar-thumb, .persona-grid::-webkit-scrollbar-thumb {
+.log:hover, .prompt-area:hover, .modal-backdrop:hover, .persona-grid:hover, .speech-text:hover { scrollbar-color: var(--blue-glow) transparent; }
+.log::-webkit-scrollbar, .prompt-area::-webkit-scrollbar, .modal-backdrop::-webkit-scrollbar, .persona-grid::-webkit-scrollbar, .speech-text::-webkit-scrollbar { width: 8px; height: 8px; }
+.log::-webkit-scrollbar-track, .prompt-area::-webkit-scrollbar-track, .modal-backdrop::-webkit-scrollbar-track, .persona-grid::-webkit-scrollbar-track, .speech-text::-webkit-scrollbar-track { background: transparent; }
+.log::-webkit-scrollbar-thumb, .prompt-area::-webkit-scrollbar-thumb, .modal-backdrop::-webkit-scrollbar-thumb, .persona-grid::-webkit-scrollbar-thumb, .speech-text::-webkit-scrollbar-thumb {
   background: transparent; border-radius: 8px; transition: background .2s ease;
 }
-.log:hover::-webkit-scrollbar-thumb, .prompt-area:hover::-webkit-scrollbar-thumb, .modal-backdrop:hover::-webkit-scrollbar-thumb, .persona-grid:hover::-webkit-scrollbar-thumb {
+.log:hover::-webkit-scrollbar-thumb, .prompt-area:hover::-webkit-scrollbar-thumb, .modal-backdrop:hover::-webkit-scrollbar-thumb, .persona-grid:hover::-webkit-scrollbar-thumb, .speech-text:hover::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, var(--blue), var(--blue-glow));
 }
-.log::-webkit-scrollbar-thumb:hover, .prompt-area::-webkit-scrollbar-thumb:hover, .modal-backdrop::-webkit-scrollbar-thumb:hover, .persona-grid::-webkit-scrollbar-thumb:hover {
+.log::-webkit-scrollbar-thumb:hover, .prompt-area::-webkit-scrollbar-thumb:hover, .modal-backdrop::-webkit-scrollbar-thumb:hover, .persona-grid::-webkit-scrollbar-thumb:hover, .speech-text::-webkit-scrollbar-thumb:hover {
   background: var(--gold);
 }
 .log-line { margin: 0; line-height: 1.5; border-left: 3px solid var(--line); padding-left: 9px; }

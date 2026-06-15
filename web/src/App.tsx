@@ -150,6 +150,7 @@ export function App() {
   const [online, setOnline] = useState<boolean | null>(null); // null = still checking
   const onlineRef = useRef<boolean | null>(null);
   const logRef = useRef<HTMLDivElement>(null);
+  const speechTextRef = useRef<HTMLSpanElement>(null);
 
   // --- reveal queue + buffers (refs so the async pump sees fresh values) ---
   const queueRef = useRef<Turn[]>([]);
@@ -195,6 +196,13 @@ export function App() {
     load();
     return onVoicesChanged(load);
   }, []);
+
+  // Auto-scroll the speech bubble to the bottom as the text types out.
+  useEffect(() => {
+    if (speechTextRef.current) {
+      speechTextRef.current.scrollTop = speechTextRef.current.scrollHeight;
+    }
+  }, [typed]);
 
   // Resolve a voice name for a role — user's choice, else a distinct auto-pick.
   const voiceFor = (role: "for" | "against" | "judge"): string | undefined => {
@@ -568,7 +576,7 @@ export function App() {
                     {sp && typed && (
                       <div className={`speech ${SIDE_COLOR[sp.side]} ${sp.side === "against" ? "right" : "left"}`}>
                         <span className="speech-name">{personaFor(sp.side).category !== "default" ? personaFor(sp.side).label : sp.name}</span>
-                        <span className="speech-text">
+                        <span className="speech-text" ref={speechTextRef}>
                           {typed}
                           <span className="caret">▋</span>
                         </span>
