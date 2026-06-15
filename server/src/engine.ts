@@ -235,6 +235,28 @@ function concise(text: string, maxSentences: number, maxChars: number): string {
     .replace(/\s+/g, " ")
     .trim();
 
+  // Strip stage directions in single asterisks (e.g., *steps from shadow*, *sighs*)
+  // and remove asterisks from plain emphasized words (e.g., *narrow* -> narrow)
+  t = t.replace(/\*[^*]+\*/g, (match) => {
+    const inner = match.slice(1, -1).trim();
+    const isLowercase = inner === inner.toLowerCase();
+    const stageVerbs = /^(sighs|chuckles|laughs|glares|coughs|points|nods|shrugs|waves|whispers|gasps|groans|yells|smiles|smirks)$/i;
+    if (isLowercase && (inner.includes(" ") || stageVerbs.test(inner))) {
+      return ""; // strip stage direction entirely
+    }
+    return inner; // keep the text, remove the surrounding asterisks
+  });
+
+  // Strip stage directions in parentheses like (sighs) or (laughs)
+  t = t.replace(/\((sighs|chuckles|laughs|glares|coughs|points|nods|shrugs|waves|whispers|gasps|groans|yells|smiles|smirks)\)/gi, "");
+  t = t.replace(/\([a-z\s]{6,}\)/g, (match) => {
+    const inner = match.slice(1, -1).trim();
+    if (inner === inner.toLowerCase()) return "";
+    return match;
+  });
+
+  t = t.replace(/\s+/g, " ").trim();
+
   const sentences = t.match(/[^.!?]+[.!?]+(\s|$)/g);
   if (sentences && sentences.length > maxSentences) {
     t = sentences.slice(0, maxSentences).join(" ").trim();
