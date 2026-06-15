@@ -46,6 +46,9 @@ export const MODEL_CATALOG: ModelOption[] = [
   { id: "nvidia:deepseek-ai/deepseek-r1", label: "🆓 DeepSeek R1 · NVIDIA", needs: "nvidia" },
   { id: "nvidia:nvidia/llama-3.1-nemotron-70b-instruct", label: "🆓 Nemotron 70B · NVIDIA", needs: "nvidia" },
   { id: "nvidia:qwen/qwen2.5-72b-instruct", label: "🆓 Qwen 2.5 72B · NVIDIA", needs: "nvidia" },
+  { id: "nvidia:minimaxai/minimax-m3", label: "🆓 MiniMax M3 · NVIDIA", needs: "nvidia" },
+  { id: "nvidia:google/gemma-4-31b-it", label: "🆓 Gemma 4 31B · NVIDIA", needs: "nvidia" },
+  { id: "nvidia:deepseek-ai/deepseek-v4-pro", label: "🆓 DeepSeek V4 Pro · NVIDIA", needs: "nvidia" },
 ];
 
 function baseDebaters(): [Debater, Debater] {
