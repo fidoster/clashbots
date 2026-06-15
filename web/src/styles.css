@@ -943,6 +943,36 @@ html::-webkit-scrollbar-thumb:hover { background: var(--blue-glow); background-c
 .setting-block:first-of-type { border-top: none; }
 .setting-block h3 { font-family: var(--sans); font-weight: 700; font-size: 15px; margin: 0 0 6px; }
 .model-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 8px 0; }
+.settings-shortcuts {
+  margin: 14px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--line);
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+.shortcuts-title {
+  font-size: 11px;
+  font-family: var(--pixel);
+  color: var(--gold);
+  letter-spacing: 0.5px;
+}
+.shortcuts-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.shortcuts-buttons .btn {
+  padding: 6px 12px !important;
+  font-size: 12px !important;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 0 #000 !important;
+}
+.shortcuts-buttons .btn:active {
+  transform: translateY(1px);
+}
 .model-picker { display: flex; flex-direction: column; gap: 6px; align-items: stretch; min-width: 240px; }
 .model-picker select { width: 100%; }
 .local-model-input {

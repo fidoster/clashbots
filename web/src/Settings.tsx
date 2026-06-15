@@ -103,6 +103,62 @@ export function Settings(props: {
           <ModelRow label="🔵 FOR side" value={config.models?.for ?? "mock"} models={models} localBaseUrl={config.local?.baseUrl} onChange={(v) => setModel("for", v)} />
           <ModelRow label="🟢 AGAINST side" value={config.models?.against ?? "mock"} models={models} localBaseUrl={config.local?.baseUrl} onChange={(v) => setModel("against", v)} />
           <ModelRow label="⚖️ Judge panel" value={config.models?.judge ?? "mock"} models={models} localBaseUrl={config.local?.baseUrl} onChange={(v) => setModel("judge", v)} />
+          <div className="settings-shortcuts">
+            <span className="shortcuts-title">⚡ Model Shortcuts:</span>
+            <div className="shortcuts-buttons">
+              <button
+                type="button"
+                className="btn ghost small"
+                onClick={() => {
+                  const forModel = config.models?.for ?? "mock";
+                  onChange({
+                    ...config,
+                    models: { ...config.models, against: forModel }
+                  });
+                }}
+              >
+                Opponent = FOR
+              </button>
+              <button
+                type="button"
+                className="btn ghost small"
+                onClick={() => {
+                  const forModel = config.models?.for ?? "mock";
+                  onChange({
+                    ...config,
+                    models: { ...config.models, judge: forModel }
+                  });
+                }}
+              >
+                Judges = FOR
+              </button>
+              <button
+                type="button"
+                className="btn ghost small"
+                onClick={() => {
+                  const forModel = config.models?.for ?? "mock";
+                  onChange({
+                    ...config,
+                    models: { ...config.models, against: forModel, judge: forModel }
+                  });
+                }}
+              >
+                Sync All to FOR
+              </button>
+              <button
+                type="button"
+                className="btn ghost small"
+                onClick={() => {
+                  onChange({
+                    ...config,
+                    models: { for: "mock", against: "mock", judge: "mock" }
+                  });
+                }}
+              >
+                Reset to Mock
+              </button>
+            </div>
+          </div>
           <p className="muted small">
             Tip: keep everything on <b>Mock</b> for a free demo, or use your free <b>Local</b> server.
           </p>
