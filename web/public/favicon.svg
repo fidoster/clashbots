@@ -1,0 +1,38 @@
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logo-body" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#1e294b" />
+      <stop offset="100%" stopColor="#0f172a" />
+    </linearGradient>
+    <linearGradient id="logo-visor" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stopColor="#ffd54a" />
+      <stop offset="100%" stopColor="#f59e0b" />
+    </linearGradient>
+    <filter id="glow-logo" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  {/* Neck */}
+  <rect x="42" y="72" width="16" height="12" rx="4" fill="#334155" stroke="#1e293b" strokeWidth="3" />
+  {/* Ears / Antenna Mounts */}
+  <rect x="14" y="38" width="8" height="24" rx="4" fill="#475569" stroke="#1e293b" strokeWidth="2" />
+  <rect x="78" y="38" width="8" height="24" rx="4" fill="#475569" stroke="#1e293b" strokeWidth="2" />
+  {/* Left/Right Antennae */}
+  <path d="M18 38 L18 20" stroke="#475569" strokeWidth="3" strokeLinecap="round" />
+  <circle cx="18" cy="18" r="4" fill="#ffd54a" />
+  <path d="M82 38 L82 20" stroke="#475569" strokeWidth="3" strokeLinecap="round" />
+  <circle cx="82" cy="18" r="4" fill="#ffd54a" />
+  {/* Main Head Helmet */}
+  <rect x="20" y="24" width="60" height="52" rx="16" fill="url(#logo-body)" stroke="#ffd54a" strokeWidth="3" />
+  {/* Cybernetic Face Plates */}
+  <path d="M26 32 H74 V40 H26 Z" fill="#0f172a" opacity="0.4" />
+  {/* Glowing Neon Visor */}
+  <rect x="28" y="40" width="44" height="16" rx="8" fill="url(#logo-visor)" filter="url(#glow-logo)" />
+  {/* Scanning laser line inside visor */}
+  <rect x="34" y="47" width="32" height="2" rx="1" fill="#ffffff" opacity="0.8" />
+  {/* Cyber mouth vent lines */}
+  <line x1="42" y1="64" x2="42" y2="68" stroke="#475569" strokeWidth="2" strokeLinecap="round" />
+  <line x1="50" y1="63" x2="50" y2="69" stroke="#475569" strokeWidth="2" strokeLinecap="round" />
+  <line x1="58" y1="64" x2="58" y2="68" stroke="#475569" strokeWidth="2" strokeLinecap="round" />
+</svg>
