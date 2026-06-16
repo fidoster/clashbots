@@ -4,8 +4,9 @@ import { Settings } from "./Settings.js";
 import { ScoreCard } from "./ScoreCard.js";
 import { BotConfig } from "./BotConfig.js";
 import { JudgesConfig } from "./JudgesConfig.js";
+import { PersonaDropdown } from "./PersonaDropdown.js";
 import { DEFAULT_JUDGES } from "./defaultJudges.js";
-import { PERSONAS, personaVoice } from "./personas.js";
+import { PERSONAS, personaVoice, type PersonaOption } from "./personas.js";
 import { useSettings } from "./useSettings.js";
 import { LogoIcon, BlueRobot, GreenRobot } from "./RobotIcons.js";
 import { cancelSpeech, listVoices, onVoicesChanged, pickVoiceByGender, speak, speechSupported } from "./speech.js";
@@ -95,7 +96,7 @@ const SAMPLE_TOPICS = [
   "Should there be a global maximum wage cap to prevent extreme wealth inequality?"
 ];
 
-const SIDE_COLOR: Record<string, string> = { for: "blue", against: "green" };
+const SIDE_COLOR = { for: "blue", against: "green" } as const;
 
 // Shown in the arena before a match starts, so each bot's ⚙️ is always reachable.
 const DISPLAY_BOTS: Debater[] = [
@@ -160,6 +161,7 @@ export function App() {
   const pendingScoresRef = useRef<JudgeScore[]>([]);
   const pendingVerdictRef = useRef<MatchResult | null>(null);
   const abortRef = useRef(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   // Pull server-backed data (models + leaderboard) — also used to recover after
   // the backend comes back online.
@@ -235,13 +237,23 @@ export function App() {
     return { name: manual || voiceFor(role), rate: baseRate, pitch: 1 };
   };
 
-  const voiceEnabled = Boolean(config.voice?.enabled) && speechSupported();
-  const toggleVoice = () =>
-    setConfig({ ...config, voice: { ...config.voice, enabled: !config.voice?.enabled } });
-
   const soundEnabled = config.sound?.enabled !== false;
-  const toggleSound = () =>
-    setConfig({ ...config, sound: { ...config.sound, enabled: !soundEnabled } });
+  const voiceEnabled = Boolean(config.voice?.enabled) && speechSupported() && soundEnabled;
+  const toggleVoice = () => {
+    const nextVal = !config.voice?.enabled;
+    setConfig({ ...config, voice: { ...config.voice, enabled: nextVal } });
+    if (!nextVal) {
+      cancelSpeech();
+    }
+  };
+
+  const toggleSound = () => {
+    const nextVal = !soundEnabled;
+    setConfig({ ...config, sound: { ...config.sound, enabled: nextVal } });
+    if (!nextVal) {
+      cancelSpeech();
+    }
+  };
 
   // Mirror current voice settings into a ref so the stable pump reads fresh values.
   const voiceRef = useRef<{
@@ -334,6 +346,12 @@ export function App() {
 
   const fight = useCallback(async () => {
     cancelSpeech(); // stop any leftover narration
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const ctrl = new AbortController();
+    abortControllerRef.current = ctrl;
+
     // reset everything
     queueRef.current = [];
     pumpingRef.current = false;
@@ -400,8 +418,15 @@ export function App() {
             playError();
             break;
         }
-      });
+      }, ctrl.signal);
+
+      if (abortControllerRef.current === ctrl) {
+        abortControllerRef.current = null;
+      }
     } catch (err) {
+      if (err instanceof Error && err.name === "AbortError") {
+        return;
+      }
       abortRef.current = true;
       setError(String(err));
       setStatus("idle");
@@ -413,6 +438,10 @@ export function App() {
   // narration, and reveal pump, and closes any open panel.
   const goHome = useCallback(() => {
     abortRef.current = true;
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
     cancelSpeech();
     queueRef.current = [];
     pumpingRef.current = false;
@@ -506,12 +535,12 @@ export function App() {
         />
         <div className="controls-buttons">
           <button
-            className="btn primary"
-            onClick={fight}
-            disabled={running || !topic.trim() || online === false}
-            title={online === false ? "Server offline — start the backend first" : undefined}
+            className={`btn ${running ? "danger" : "primary"}`}
+            onClick={running ? goHome : fight}
+            disabled={!running && (!topic.trim() || online === false)}
+            title={!running && online === false ? "Server offline — start the backend first" : undefined}
           >
-            {running ? "⚔️ FIGHTING…" : "⚔️ FIGHT!"}
+            {running ? "🛑 STOP FIGHT" : "⚔️ FIGHT!"}
           </button>
           <button
             className="btn ghost"
@@ -595,7 +624,17 @@ export function App() {
                         model={modelShort(effectiveModel(config.models?.[d.side]))}
                         persona={personaFor(d.side)}
                         record={recordFor(d.id, d.name)}
-                        onConfig={running ? undefined : () => setBotPanel(d.side)}
+                        onConfig={() => setBotPanel(d.side)}
+                        onPersonaChange={(personaText) => {
+                          setConfig({
+                            ...config,
+                            personas: {
+                              ...config.personas,
+                              [d.side]: personaText,
+                            },
+                          });
+                        }}
+                        running={running}
                       />
                     ))}
                     <div className="vs slam" key={`vs-${runId}`}>VS</div>
@@ -930,22 +969,28 @@ function Fighter(props: {
   loser: boolean;
   total?: number;
   model: string;
-  persona: { emoji: string; label: string; category: string };
+  persona: PersonaOption;
   record?: { wins: number; matches: number };
-  onConfig?: () => void;
+  onConfig: () => void;
+  onPersonaChange: (personaText: string | undefined) => void;
+  running: boolean;
 }) {
-  const { debater, active, winner, loser, total, model, persona, record, onConfig } = props;
+  const { debater, active, winner, loser, total, model, persona, record, onConfig, onPersonaChange, running } = props;
   const color = SIDE_COLOR[debater.side];
   const winRate = record && record.matches > 0 ? Math.round((record.wins / record.matches) * 100) : null;
   const isCustomPersona = persona.category !== "default";
   const displayName = isCustomPersona ? persona.label : debater.name;
   return (
     <div className={`fighter ${color} ${active ? "active" : ""} ${winner ? "winner" : ""} ${loser ? "loser" : ""}`}>
-      {onConfig && (
-        <button className="bot-gear" title={`Configure ${displayName}`} onClick={onConfig}>
-          ⚙️
-        </button>
-      )}
+      <button
+        className="bot-gear"
+        title={`Configure ${displayName}`}
+        onClick={onConfig}
+        disabled={running}
+        style={running ? { opacity: 0.5, cursor: "not-allowed", pointerEvents: "none" } : undefined}
+      >
+        ⚙️
+      </button>
       <div className="bot">
         <div className="bot-avatar">
           {isCustomPersona ? (
@@ -970,9 +1015,18 @@ function Fighter(props: {
         <span className="stat" title="Model powering this bot">
           <span className="stat-ico">🧠</span> {model}
         </span>
-        <span className="stat" title="Debating persona">
-          <span className="stat-ico">{persona.emoji}</span> {persona.label}
-        </span>
+        {running ? (
+          <span className="stat" title="Debating persona">
+            <span className="stat-ico">{persona.emoji}</span> {persona.label}
+          </span>
+        ) : (
+          <PersonaDropdown
+            value={persona.id}
+            sideColor={color}
+            onChange={onPersonaChange}
+            persona={persona}
+          />
+        )}
         <span className="stat" title="Career record across all matches">
           <span className="stat-ico">🏅</span>{" "}
           {record ? `${record.wins}W · ${record.matches}M${winRate !== null ? ` · ${winRate}%` : ""}` : "No bouts yet"}

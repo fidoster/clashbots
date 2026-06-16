@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { testProvider } from "./api.js";
 import { ModelPicker } from "./ModelPicker.js";
-import { listVoices, onVoicesChanged, speak, speechSupported } from "./speech.js";
+import { cancelSpeech, listVoices, onVoicesChanged, speak, speechSupported } from "./speech.js";
 import { playCoin, setSoundEnabled, setSoundVolume } from "./sound.js";
 import type { ClientConfig, ModelOption, ModelsInfo, ProviderKind } from "./types.js";
 
@@ -235,7 +235,11 @@ export function Settings(props: {
                     const enabled = e.target.checked;
                     onChange({ ...config, sound: { ...config.sound, enabled } });
                     setSoundEnabled(enabled);
-                    if (enabled) playCoin();
+                    if (enabled) {
+                      playCoin();
+                    } else {
+                      cancelSpeech();
+                    }
                   }}
                 />
                 Enable 8-bit game sound effects
@@ -278,7 +282,11 @@ export function Settings(props: {
                     <input
                       type="checkbox"
                       checked={Boolean(config.voice?.enabled)}
-                      onChange={(e) => setVoice({ enabled: e.target.checked })}
+                      onChange={(e) => {
+                        const enabled = e.target.checked;
+                        setVoice({ enabled });
+                        if (!enabled) cancelSpeech();
+                      }}
                     />
                     Read debates aloud (each side gets its own voice)
                   </label>
